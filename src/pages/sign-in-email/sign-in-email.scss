@@ -1,0 +1,50 @@
+page-sign-in-email {
+    @import "ionic.globals";    
+    $text-input-md-input-clear-icon-color: #f4f4f4;
+    
+    .toolbar-title-md{
+      color: #f4f4f4;
+    }
+
+    .toolbar-title-ios{
+        color: #f4f4f4;
+    }
+
+    .text-input-ios {
+    color: #f4f4f4; 
+    }
+
+    .text-input-md{
+        color: #f4f4f4;
+    }
+    .splash-bg {
+        position: relative;
+        background: url('../assets/img/24.png') no-repeat transparent;
+        background-size: cover;
+        height: 100%;
+        z-index: 1;
+        background-repeat: repeat-x;
+        animation: animatedBackground 40s linear infinite;
+      }
+
+    
+      @keyframes animatedBackground { /* Averiguar a profundiad que es */
+        from { background-position: 0 0; }
+        to { background-position: 100% 0; }
+      }
+    
+      .splash-info {
+        position: relative;
+        z-index: 2;
+        margin-top: 30%;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      .splash-logo {
+        margin: auto;
+        background: url('../assets/img/appicon.png') repeat transparent;
+        background-size: 100%;
+        width: 128px;
+        height: 128px;
+      }
+}

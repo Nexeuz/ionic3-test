@@ -1,0 +1,2 @@
+Primera pagina: IntroductionPage // ion sliders
+Segunda pagina: WelcomePage; // aqui decidiremos si hacemos push a LoginEmailPage o directamente a facebook

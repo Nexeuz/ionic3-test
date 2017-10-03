@@ -1,0 +1,15 @@
+Tener el BIN del JDK en las variables de entorno.
+
+Primer comando crear el keystore:
+
+keytool -v  -genkey  -keystore brandingKey.keystore -alias branding -keyalg RSA -keysize 2048 -validity 10000
+
+segundo comando, firmar el APK:
+
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore brandingKey.keystore RUTA_DEL_APK  ALIAS_DEL_APK
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore brandingKey.keystore C:\Users\wwwni\Desktop\myProjects\BrandingMarketingApp\platforms\android\build\outputs\apk\android-release-unsigned.apk branding
+
+Tercer comando, obtener el hash:
+
+keytool -exportcert -alias YOUR_RELEASE_KEY_ALIAS -keystore YOUR_RELEASE_KEY_PATH | openssl sha1 -binary | openssl base64
+

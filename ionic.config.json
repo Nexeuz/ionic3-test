@@ -2,5 +2,7 @@
   "name": "BrandingMarketingApp",
   "app_id": "bcab922a",
   "type": "ionic-angular",
-  "integrations": {}
+  "integrations": {
+    "cordova": {}
+  }
 }

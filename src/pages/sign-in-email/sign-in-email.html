@@ -1,0 +1,38 @@
+<!--
+  Generated template for the SignInPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header no-border>
+  <ion-navbar hideBackButton transparent >
+    <ion-title ><span style="color:white">Iniciar sesión con correo electrónico</span></ion-title>
+    <ion-buttons navPop left>
+        <button color="light" ion-button  icon-only>
+            <ion-icon ios="ios-arrow-back" md="md-arrow-back"></ion-icon>            
+        </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="splash-bg" no-bounce padding>
+    <div class="splash-info">
+        <div class="splash-logo"></div>
+      </div>
+  <form [formGroup]="myForm" (ngSubmit)="SubmitForm()">
+    <ion-item color="transparent">
+      <ion-label style="font-weight:500" color="light" fixed>Correo:</ion-label>
+      <ion-input color="light" type="email" email [formControl]="myForm.controls.correo"></ion-input>
+    </ion-item>
+    <ion-item  color="transparent">
+      <ion-label  style="font-weight:500"  color="light" fixed>Contraseña:</ion-label>
+      <ion-input color="light" type="password" clearInput [formControl]="myForm.controls.password"></ion-input>
+    </ion-item>
+    <button style="margin-top:10px;" ion-button full color="secondary"  type="submit" [disabled]="!myForm.valid">Iniciar sesión</button>
+  </form>
+  <p tapabble style="font-size:17px; color:#f4f4f4; margin-top:20px" *ngIf="myForm.controls.correo.valid" (tap)="resetPassword()">¿Deseas restablecer contraseña para {{myForm.value.correo}} ?, toca aquí para restablecerla</p>
+  
+
+</ion-content>

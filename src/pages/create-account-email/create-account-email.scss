@@ -1,0 +1,66 @@
+page-create-account-email {
+
+    $color-label-text: rgba(0, 0, 0, 0.5);
+    $text-input-color:  rgba(56, 56, 56, 0.83);
+    $color-danger-text: #eeff00;
+    $margin-danger-text: 16px;
+
+    .text-label{
+        font-weight:500; 
+        color:$color-label-text !important;
+    }
+    .danger-text{
+        margin-left: $margin-danger-text;
+        color: $color-danger-text;
+    }
+
+
+      
+    
+
+    .toolbar-title-ios{
+        color: $text-input-color;
+    }
+
+    .text-input-ios {
+    color: $text-input-color; 
+    }
+
+    .text-input-md{
+        color: $text-input-color;
+    }
+    .splash-bg {
+        position: relative;
+        background: url('../assets/img/registerbackground.png') no-repeat transparent;
+        background-size: cover;
+        height: 100%;
+        z-index: 1;
+        background-repeat: repeat-x;
+        animation: animatedBackground 40s linear infinite;
+      }
+
+    
+      @keyframes animatedBackground { /* Averiguar a profundiad que es */
+        from { background-position: 0 0; }
+        to { background-position: 100% 0; }
+      }
+    
+      .splash-info {
+        position: relative;
+        z-index: 2;
+        margin-top: 30%;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      .splash-logo {
+        margin: auto;
+        background: url('../assets/img/appicon.png') repeat transparent;
+        background-size: 100%;
+        width: 128px;
+        height: 128px;
+      }
+
+
+
+
+}

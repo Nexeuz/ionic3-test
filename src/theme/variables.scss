@@ -38,14 +38,20 @@ $colors: (
   secondary:  #32db64,
   danger:     #f53d3d,
   light:      #f4f4f4,
-  dark:       #222
+  dark:       #222,
+  email:      #525252,
+  facebook:  #3b5998,
+  transparent: rgba(255, 255, 255, 0),
+
+
 );
 
 
+$verde: #32db64;
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
-
+$checkbox-ios-background-color-on: $verde;
 
 
 
@@ -53,6 +59,9 @@ $colors: (
 // --------------------------------------------------
 // Material Design only Sass variables can go here
 
+
+$text-input-md-input-clear-icon-color: #f4f4f4;
+$checkbox-md-icon-background-color-on: $verde;
 
 
 
