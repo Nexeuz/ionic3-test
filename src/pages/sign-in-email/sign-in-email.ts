@@ -42,26 +42,27 @@ export class SignInEmailPage {
     const PASSWORD = this.myForm.value.password;
 
     this.fire.emailLogin(EMAIL, PASSWORD).then(data => {
-      debugger
       if (data.email) {
         const root = this.app.getRootNav();
         root.popToRoot();
-        root.setRoot(MainPage).then(() => {
-          loader.dismiss();
+        root.setRoot(MainPage).then(()=>{
+          loader.dismiss();                      
         });
       } else {
-          switch (data.code) {
-            case 'auth/wrong-password': {
-              this.commun.communAlert('Error al intentar iniciar sesión', 'La contraseña es incorrecta o el usuario no tiene contraseña.');
-              break
-            }
-            case 'auth/user-not-found':{
-              this.commun.communAlert('Error al intentar iniciar sesión', 'El correo ingresado no existe.');              
-            }
-
+        loader.dismiss();                      
+        switch (data.code) {
+          case 'auth/wrong-password': {
+            this.commun.communAlert('Error al intentar iniciar sesión', 'La contraseña es incorrecta o el correo introducido no tiene contraseña.');
+            break;
           }
-
-        loader.dismiss();
+          case 'auth/user-not-found': {
+            this.commun.communAlert('Error al intentar iniciar sesión', 'El correo ingresado no existe o ha sido eliminado.');
+            break;
+          }
+          default: {
+            this.commun.communAlert('Error al iniciar sesión','Ha ocurrido un error al iniciar sesión intentalo nuevamente más tarde.');
+          }
+        }
       }
     })
 
@@ -70,24 +71,37 @@ export class SignInEmailPage {
   resetPassword() {
     const alert = this.alertCtrl.create({
       title: 'Confirmar Acción',
-      message: '¿Deseas que enviemos un correo electrónico a '+this.myForm.value.correo+' para restablecer tu contraseña?',
+      message: '¿Deseas que enviemos un correo electrónico a ' + this.myForm.value.correo + ' para restablecer tu contraseña?',
       buttons: [
         {
-          text: 'Cancelar',
+          text: 'Cancelar'
         },
         {
           text: 'Ok',
           role: 'ok',
           handler: () => {
-            this.fire.resetPassword(this.myForm.value['correo'])
-            .then(() => this.commun.communAlert('¡Formulario de recuperación de contraseña enviado!','Hemos enviado un correo electrónico a '+this.myForm.value.correo+' con un formulario para restablecer tu contraseña.'))
-          }
-        },
+            this.fire.resetPassword(this.myForm.value['correo']).then((data) => {
+              if(!data){
+                this.commun.communAlert('¡Formulario de recuperación de contraseña enviado!', 'Hemos enviado un correo electrónico a ' + this.myForm.value.correo + ' con un formulario para restablecer tu contraseña.');
+              }else{
+                switch (data.code) {
+                  case 'auth/user-not-found': {
+                    this.commun.communAlert('Error al enviar el correo de recuperación', 'El correo electrónico ingresado no existe o la cuenta pudo ser eliminada.');
+                    break;
+                  }
+                  default: {
+                    this.commun.communAlert('Error al intentar iniciar sesión', 'Ocurrió un error al enviar el correo electrónico de recuperación intentalo nuevamente más tarde.');
+                    break;
+                  }
+                }
+              }
+
+            });
+          } // handler
+        } // button
       ]
     });
     alert.present();
-
   }
-
-
 }
+

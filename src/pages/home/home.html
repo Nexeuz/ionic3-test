@@ -1,12 +1,75 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Home</ion-title>
+  <ion-navbar color="dark">
+    <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Inicio</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h2>Bienvenido {{home?.nombre}}</h2>
+  <h2>¡Hola de nuevo <span *ngIf="home">{{ home?.name | splicename }}!</span></h2>
   <p>
-    ¿Eres administrador?: <strong>{{isAdmin}}</strong>
+    Estos son algunos de los nuevos articulos que te podrían interesar:
   </p>
+
+  <div [@cardsAnimation]="cardsArray.length">
+    <ion-card *ngFor="let card of cardsArray">
+      <img style="padding:15px" (click)="openUrl(card.url_articulo)" [src]="card.url_img | sinfoto" onError="this.src='assets/img/noimage.png'"
+      />
+      <ion-card-content>
+        <ion-card-title [innerHtml]="card.title" (click)="openUrl(card.url_articulo)">
+        </ion-card-title>
+        <p [innerHtml]=" card.description" (click)="openUrl(card.url_articulo)">
+        </p>
+        <br>
+        <p>
+          <i [innerHtml]="card.source"></i>
+        </p>
+
+        <ion-row no-padding>
+          <ion-col>
+            <button ion-button clear small color="danger" icon-start>
+              <ion-icon name='heart-outline'></ion-icon>
+              Guardar
+            </button>
+          </ion-col>
+          <ion-col text-right>
+            <ion-fab right middle>
+              <button  color="danger" ion-fab mini>
+                <ion-icon name="md-share"></ion-icon>
+              </button>
+              <ion-fab-list side="top">
+                <button color="twitter" (tap)="socialSharingTwitter(card.url_articulo, card.title, card.description, card.url_img)" ion-fab>
+                  <ion-icon name="logo-twitter"></ion-icon>
+                </button>
+                <button color="facebook" (tap)="socialSharingFacebook(card.url_articulo, card.title, card.description, card.url_img)" ion-fab>
+                  <ion-icon name="logo-facebook"></ion-icon>
+                </button>
+              </ion-fab-list>
+              <ion-fab-list side="left">
+                <button color="whatsapp" (tap)="socialSharingWhatsApp(card.url_articulo, card.title, card.description, card.url_img)" ion-fab>
+                  <ion-icon  class="iconfont icon-whatsapp"></ion-icon>
+                </button>
+              </ion-fab-list>
+            </ion-fab>
+          </ion-col>
+
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <ion-fab *ngIf="home?.admin" bottom right>
+    <button (tap)="openCreateCard()" ion-fab color="secondary">
+      <ion-icon class="iconfont icon-toolarticleicon041"></ion-icon>
+    </button>
+  </ion-fab>
+
+
+  <!-- <ion-infinite-scroll (ionInfinite)="doInfinite()">
+    <ion-infinite-scroll-content
+    loadingSpinner="bubbles"
+    loadingText="Cargando más cards..."></ion-infinite-scroll-content>
+  </ion-infinite-scroll> -->
 </ion-content>

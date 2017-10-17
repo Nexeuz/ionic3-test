@@ -1,8 +1,10 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
+import { BrowserTab } from '@ionic-native/browser-tab';
 
 
 
@@ -13,6 +15,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { Facebook } from '@ionic-native/facebook';
 import { IonicStorageModule } from '@ionic/storage';
@@ -20,6 +23,9 @@ import { FirebaseProvider } from '../providers/firebase/firebasepro';
 import { CommunProvider } from '../providers/commun/commun';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { CardProvider } from '../providers/card/card';
+import { ThemeableBrowser } from '@ionic-native/themeable-browser';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 
 
@@ -39,10 +45,12 @@ export const firebaseConfig = {
     MyApp,
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
+    AngularFirestoreModule,
     AngularFireAuthModule,
     FormsModule,
     ReactiveFormsModule,
@@ -60,6 +68,10 @@ export const firebaseConfig = {
     Facebook,
     FirebaseProvider,
     CommunProvider,
+    CardProvider,
+    BrowserTab,
+    ThemeableBrowser,
+    SocialSharing
   ]
 })
 export class AppModule {}

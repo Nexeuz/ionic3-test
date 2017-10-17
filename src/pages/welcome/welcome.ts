@@ -30,7 +30,6 @@ export class WelcomePage {
 
   facebook() {
     this.fire.signInWithFacebook().then((data)=>{
-      debugger
       if(!data){
         const root = this.app.getRootNav();
         root.popToRoot();

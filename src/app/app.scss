@@ -14,3 +14,25 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+
+// Pages create-account and modal-create-card
+$color-label-text: rgba(0, 0, 0, 0.5);
+$text-input-color:  rgba(56, 56, 56, 0.83);
+$color-danger-text: #eeff00;
+$margin-danger-text: 16px;
+
+.text-label{
+    font-weight:500; 
+    color:$color-label-text !important;
+}
+.danger-text{
+    margin-left: $margin-danger-text;
+    color: $color-danger-text;
+}
+
+ion-menu{
+    ion-content{
+     background-color:#222 !important;
+    }
+   }

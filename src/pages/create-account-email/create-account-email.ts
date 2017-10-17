@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import {App, IonicPage, NavController, LoadingController, AlertController } from 'ionic-angular';
+import { App, IonicPage, NavController, LoadingController, AlertController } from 'ionic-angular';
 import { FormGroup, FormBuilder, AbstractControl, Validators } from '@angular/forms';
 import { FirebaseProvider } from '../../providers/firebase/firebasepro';
+import { CommunProvider } from '../../providers/commun/commun';
+
 import { MainPage } from '../pages'
 
 
@@ -13,14 +15,21 @@ import { MainPage } from '../pages'
 export class CreateAccountEmailPage {
 
   registrerForm: FormGroup;
+  closeObservable: any;
 
-  constructor(public app:App, public AlertCrl: AlertController, public loadingCtrl: LoadingController, public fire: FirebaseProvider, public fb: FormBuilder, public navCtrl: NavController) {
+  constructor(public commun: CommunProvider, public app: App, public AlertCrl: AlertController, public loadingCtrl: LoadingController, public fire: FirebaseProvider, public fb: FormBuilder, public navCtrl: NavController) {
     this.buildForm();
+
+    
   }
 
   ionViewDidLoad() { // antes que carge la vista........
 
     console.log('ionViewDidLoad CreateAccountEmailPage');
+  }
+
+  ionViewWillLeave() {
+    this.closeObservable.unsubscribe();
   }
 
   buildForm(): void {
@@ -54,9 +63,7 @@ export class CreateAccountEmailPage {
       ],
     });
 
-
-
-    this.registrerForm.valueChanges.subscribe(data => this.onValueChanged(data));
+    this.closeObservable = this.registrerForm.valueChanges.subscribe(data => this.onValueChanged(data));
     this.onValueChanged(); // reset validation messages
   }
 
@@ -69,7 +76,6 @@ export class CreateAccountEmailPage {
   }
 
   irTerms() {
-
     const TERMS = this.AlertCrl.create({
       title: 'Leer terminos y condiciones',
       subTitle: '¿Deseas leer términos y condiciones?',
@@ -96,7 +102,7 @@ export class CreateAccountEmailPage {
   onValueChanged(data?: any) {
     if (!this.registrerForm) { return; } // creo que es para evitar hacks.
     const form = this.registrerForm;// metemos nuestro formulario en una variable
-    for (const field in this.formErrors) { // iteramos el JSON this forms.
+    for (const field in this.formErrors) { // iteramos el JSON this formsErrors.
       // clear previous error message (if any)
       this.formErrors[field] = ''; // limpiamos los errores si los hay.
       const control = form.get(field); // obtenemos el control por ese campo iterado.
@@ -137,13 +143,6 @@ export class CreateAccountEmailPage {
     const loader = this.loadingCtrl.create({
       content: 'Un momento por favor te estamos registrando...'
     });
-
-    const alertErr = this.AlertCrl.create({
-      title: 'A ocurrido un error',
-      subTitle: 'El correo introducido ya se encuentra registrado, si olvidaste tu contraseña ve a la sección de Iniciar sesión para recuperarla.',
-      buttons: ['Ok']
-    });
-
     loader.present();
 
     const CORREO = this.registrerForm.value.email;
@@ -153,9 +152,8 @@ export class CreateAccountEmailPage {
     this.fire.emailSignUp(NOMBRE, CORREO, PASSWORD).then((data) => {
       if (data) {
         loader.dismiss();
-        alertErr.present();
+        this.commun.communAlert('A ocurrido un error','El correo introducido ya se encuentra registrado, si olvidaste tu contraseña ve a la sección de Iniciar sesión para recuperarla.')
       } else {
-
         const root = this.app.getRootNav();
         root.popToRoot();
         root.setRoot(MainPage).then(() => {

@@ -41,6 +41,9 @@ $colors: (
   dark:       #222,
   email:      #525252,
   facebook:  #3b5998,
+  whatsapp: #075e54,
+  messenger: #0084ff,
+  twitter: #1da1f2,
   transparent: rgba(255, 255, 255, 0),
 
 
@@ -48,12 +51,16 @@ $colors: (
 
 
 $verde: #32db64;
+
+$nero: #222; 
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
 $checkbox-ios-background-color-on: $verde;
 
-
+$menu-ios-background: $nero;
+$menu-md-background:  $nero;
+$menu-wp-background: $nero;
 
 // App Material Design Variables
 // --------------------------------------------------

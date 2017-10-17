@@ -1,1 +1,19 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-menu type="overlay"   [content]="mycontent">
+        <ion-header>
+                <ion-toolbar color="danger">
+                  <ion-title>Menu</ion-title>
+                </ion-toolbar>
+              </ion-header>
+        <ion-content>
+          <ion-list >
+            <p style="margin-left:10px; color:white">Selecciona una categoría:</p>
+            <button color="dark" menuClose ion-item (tap)="openCategory('default')">
+                   Todos los artículos
+            </button>   
+            <button color="dark" menuClose ion-item *ngFor="let categoria of categorias" (tap)="openCategory(categoria.nombre_categoria)">
+                    {{ categoria.nombre_categoria }}
+            </button>          
+         </ion-list>
+        </ion-content>
+      </ion-menu>
+<ion-nav #mycontent  [root]="rootPage"></ion-nav>

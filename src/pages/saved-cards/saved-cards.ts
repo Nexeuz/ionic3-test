@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { FirebaseProvider } from '../../providers/firebase/firebasepro';
 
 /**
  * Generated class for the SavedCardsPage page.
@@ -15,11 +16,22 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class SavedCardsPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public loading: LoadingController, private fire: FirebaseProvider, public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SavedCardsPage');
   }
+  logout() {
 
+    const loader = this.loading.create({
+      content: 'Deslogeando...'
+    });
+
+    loader.present();
+
+    this.fire.signOut().then(() => {
+      loader.dismiss();
+    });
+  }
 }

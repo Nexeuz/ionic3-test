@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage } from 'ionic-angular';
+import { IonicPage, NavParams } from 'ionic-angular';
 
 import { Tab1Root } from '../pages';
 import { Tab2Root } from '../pages';
@@ -13,7 +13,9 @@ export class TabsPage {
   tab1Root =  Tab1Root;
   tab2Root = Tab2Root;
 
-  constructor() {
+  categoria: any;
 
+  constructor(public params: NavParams) {
+  
   }
 }

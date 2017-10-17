@@ -1,4 +1,4 @@
-<ion-tabs>
-  <ion-tab [root]="tab1Root" tabTitle="Home" tabIcon="home"></ion-tab>
-  <ion-tab [root]="tab2Root" tabTitle="Cards Saved" tabIcon="information-circle"></ion-tab>
+<ion-tabs color="dark">
+  <ion-tab [root]="tab1Root" [rootParams]="params.get('category')" tabTitle="Inicio" tabIcon="time-icon-article"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle="Favoritos" tabIcon="heart"></ion-tab>
 </ion-tabs>

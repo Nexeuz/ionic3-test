@@ -1,23 +1,4 @@
 page-create-account-email {
-
-    $color-label-text: rgba(0, 0, 0, 0.5);
-    $text-input-color:  rgba(56, 56, 56, 0.83);
-    $color-danger-text: #eeff00;
-    $margin-danger-text: 16px;
-
-    .text-label{
-        font-weight:500; 
-        color:$color-label-text !important;
-    }
-    .danger-text{
-        margin-left: $margin-danger-text;
-        color: $color-danger-text;
-    }
-
-
-      
-    
-
     .toolbar-title-ios{
         color: $text-input-color;
     }

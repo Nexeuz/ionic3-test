@@ -32,7 +32,7 @@
     </ion-item>
     <button style="margin-top:10px;" ion-button full color="secondary"  type="submit" [disabled]="!myForm.valid">Iniciar sesión</button>
   </form>
-  <p tapabble style="font-size:17px; color:#f4f4f4; margin-top:20px" *ngIf="myForm.controls.correo.valid" (tap)="resetPassword()">¿Deseas restablecer contraseña para {{myForm.value.correo}} ?, toca aquí para restablecerla</p>
+  <p tapabble style="font-size:17px; color:#f4f4f4; margin-top:20px" *ngIf="myForm.controls.correo.valid" (tap)="resetPassword()">¿Deseas restablecer contraseña para <strong>{{myForm.value.correo}}</strong> ?, toca aquí para restablecerla</p>
   
 
 </ion-content>
