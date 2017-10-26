@@ -71,7 +71,7 @@ export const firebaseConfig = {
     CardProvider,
     BrowserTab,
     ThemeableBrowser,
-    SocialSharing
+    SocialSharing,
   ]
 })
 export class AppModule {}

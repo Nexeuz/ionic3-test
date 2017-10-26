@@ -26,6 +26,7 @@ export class FirebaseProvider {
   loader: any;
   fbid: any = null;
 
+  
   user: Observable<User>;
 
 

@@ -1,26 +1,27 @@
 <ion-header>
   <ion-navbar color="dark">
     <button ion-button menuToggle>
-          <ion-icon name="menu"></ion-icon>
+      <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Inicio</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h2>¡Hola de nuevo <span *ngIf="home">{{ home?.name | splicename }}!</span></h2>
+  <h2>¡Hola de nuevo
+    <span *ngIf="home">{{ home?.name | splicename }}!</span>
+  </h2>
   <p>
     Estos son algunos de los nuevos articulos que te podrían interesar:
   </p>
 
   <div [@cardsAnimation]="cardsArray.length">
-    <ion-card *ngFor="let card of cardsArray">
-      <img style="padding:15px" (click)="openUrl(card.url_articulo)" [src]="card.url_img | sinfoto" onError="this.src='assets/img/noimage.png'"
-      />
+    <ion-card *ngFor="let card of cardsArray; let i = index">
+      <img style="padding:15px" (click)="openUrl(card.url_articulo)" [src]="card.url_img | sinfoto" onError="this.src='assets/img/noimage.png'"/>
       <ion-card-content>
         <ion-card-title [innerHtml]="card.title" (click)="openUrl(card.url_articulo)">
         </ion-card-title>
-        <p [innerHtml]=" card.description" (click)="openUrl(card.url_articulo)">
+        <p [innerHtml]="card.description" (click)="openUrl(card.url_articulo)">
         </p>
         <br>
         <p>
@@ -28,15 +29,19 @@
         </p>
 
         <ion-row no-padding>
-          <ion-col>
-            <button ion-button clear small color="danger" icon-start>
-              <ion-icon name='heart-outline'></ion-icon>
-              Guardar
-            </button>
+          <ion-col offset-1 no-padding>
+            <ion-icon (tap)="saveCard(card, card.id, i)"  color="danger" style="font-size:38px" class="show" [name]="likeArray[i] == true ?  'heart' : 'heart-outline'"></ion-icon>
+
           </ion-col>
-          <ion-col text-right>
+
+          <ion-col style="margin-left:10px" align-self-center no-padding>
+            <ion-note style="font-size: 11px;" [innerHtml]="card.date  | timeAgo">
+
+            </ion-note>
+          </ion-col>
+          <ion-col text-right right>
             <ion-fab right middle>
-              <button  color="danger" ion-fab mini>
+              <button color="danger" ion-fab mini>
                 <ion-icon name="md-share"></ion-icon>
               </button>
               <ion-fab-list side="top">
@@ -49,7 +54,7 @@
               </ion-fab-list>
               <ion-fab-list side="left">
                 <button color="whatsapp" (tap)="socialSharingWhatsApp(card.url_articulo, card.title, card.description, card.url_img)" ion-fab>
-                  <ion-icon  class="iconfont icon-whatsapp"></ion-icon>
+                  <ion-icon class="iconfont icon-whatsapp"></ion-icon>
                 </button>
               </ion-fab-list>
             </ion-fab>
@@ -59,12 +64,6 @@
       </ion-card-content>
     </ion-card>
   </div>
-
-  <ion-fab *ngIf="home?.admin" bottom right>
-    <button (tap)="openCreateCard()" ion-fab color="secondary">
-      <ion-icon class="iconfont icon-toolarticleicon041"></ion-icon>
-    </button>
-  </ion-fab>
 
 
   <!-- <ion-infinite-scroll (ionInfinite)="doInfinite()">

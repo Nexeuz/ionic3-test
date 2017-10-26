@@ -134,7 +134,6 @@ export class ModalCreateCardPage {
     }
   };
   saveCard(){
-    debugger
     console.log(this.formCard.value);
     
      const cardObject: Card = {
