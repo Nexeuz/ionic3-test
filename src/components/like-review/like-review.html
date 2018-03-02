@@ -1,0 +1,6 @@
+<input #like  [value]="( likesObservable | async )?.like"   type="hidden">
+
+  <button   color="danger" (click)="likeHandler( like.value )" ion-button icon-left clear small>
+      <ion-icon color="danger"  [name]="( likesObservable | async )?.like == true ?  'heart' : 'heart-outline'"></ion-icon>
+        <div>{{ card.likes }} Me gusta</div>
+</button>

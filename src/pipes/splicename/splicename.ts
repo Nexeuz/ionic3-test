@@ -13,7 +13,12 @@ export class SplicenamePipe implements PipeTransform {
    * Takes a value and makes it lowercase.
    */
   transform(value: string) {
-    const fullname = value.split(' ');
-    return fullname[0];
+
+    if(value == null) {
+      return;
+    }else {
+      const fullname = value.split(' ');
+      return fullname[0];
+    }
   }
 }

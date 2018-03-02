@@ -10,7 +10,7 @@
             <button color="dark" menuClose ion-item (tap)="openCategory('default')">
                    Todos los artículos
             </button>   
-            <button color="dark" menuClose ion-item *ngFor="let categoria of categorias" (tap)="openCategory(categoria.nombre_categoria)">
+            <button color="dark" menuClose ion-item *ngFor="let categoria of categories | async" (tap)="openCategory(categoria.nombre_categoria)">
                     {{ categoria.nombre_categoria }}
             </button>          
          </ion-list>

@@ -27,7 +27,6 @@ export class MyApp {
   
   categories: Observable<Category[]>;
 
-  categorias = [];
 
 
   constructor(private firestore: AngularFirestore, private afAuth: AngularFireAuth, public storage: Storage, public platform: Platform, statusBar: StatusBar, public splashScreen: SplashScreen) {
@@ -36,9 +35,7 @@ export class MyApp {
     
     this.categories = this.categoryCollections.valueChanges();
 
-    this.categories.subscribe(data =>{
-      this.categorias = data;      
-    })
+ 
 
 
     
@@ -62,8 +59,10 @@ export class MyApp {
   }
 
 
-  openCategory(category) {    
-    this.nav.setRoot(MainPage, {category: category })
+  openCategory(category) {   
+    
+    this.nav.setRoot(MainPage, {category: category });
+
   }
 
 }

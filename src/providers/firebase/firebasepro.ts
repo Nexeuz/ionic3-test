@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
-// import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
@@ -9,14 +8,9 @@ import { Facebook } from '@ionic-native/facebook';
 import { Platform, AlertController, LoadingController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
+import { User } from '../interfaces'
 
 
-export interface User {
-  id: string;
-  name: string;
-  admin: boolean;
-  email: string;
-};
 
 
 @Injectable()
@@ -34,7 +28,7 @@ export class FirebaseProvider {
 
     this.user = this.afAuth.authState.switchMap(user => {
       debugger
-      this.authState = user;
+      // this.authState = user;
       if (user) {
         return this.firestore.doc<User>(`users/${user.uid}`).valueChanges();
       } else {
@@ -122,7 +116,8 @@ export class FirebaseProvider {
       }).catch((error) => {
         this.loader.dismiss();
         this.errorAlertFb('Error al intentar ingresar por facebook', 'Es posible que hallas cerrado el diálogo para ingresar con Facebook.')
-        return error;
+        return console.log(error);
+        ;
       });
     } else { // login with web.
       return this.afAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
@@ -135,7 +130,7 @@ export class FirebaseProvider {
         ).catch((err) => {
           this.loader.dismiss();
           this.errorAlertFb('Error al intentar ingresar por Facebook', 'Es posible que hallas cerrado el diálogo para ingresar con Facebook.')
-          return err;
+          return console.log(err);
 
         });
 
@@ -227,7 +222,7 @@ export class FirebaseProvider {
 
         } else {
           const user: User = {
-            id: this.fbid,
+            uid: this.fbid,
             name: this.currentUserDisplayName,
             admin: false,
             email: this.currentEmail
@@ -241,7 +236,7 @@ export class FirebaseProvider {
       
       userRef.get().then(() => {
         const user: User = {
-          id: this.authState.uid,
+          uid: this.authState.uid,
           name:  nombre,
           admin: false,
           email: this.currentEmail

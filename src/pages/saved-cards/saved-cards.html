@@ -15,26 +15,27 @@
 
 <ion-content>
 
-  <h2 text-center *ngIf="cardsArray?.length==0">Todavía no tienes articulos guardados</h2>
-    <img *ngIf="cardsArray?.length==0" src="assets/img/robot.png" class="bg-no-saved-card">
-    <p style="font-size:15px; font-weight:500" text-center *ngIf="cardsArray?.length==0">Empieza a guardar tocando en el corazón</p>
+  <ng-container *ngIf="(cardsUsers | async)?.length==0">
+  <h2 text-center >Todavía no tienes articulos guardados</h2>
+    <img src="assets/img/robot.png" class="bg-no-saved-card">
+    <p style="font-size:15px; font-weight:500" text-center>Empieza a guardar tocando en el corazón</p>
+  </ng-container>
     <ion-grid>
         <ion-row no-padding >
-          <ion-col *ngFor="let card of cardsArray; let i = index"  col-6>
+          <ion-col *ngFor="let card of cardsUsers | async;trackBy:trackByFn; let i = index"  col-6>
                   <ion-card >
                     <img style="padding:0px" (click)="openUrl(card.url_articulo)" [src]="card.url_img | sinfoto" onError="this.src='assets/img/noimage.png'"
                     />
                     <ion-card-content>
-                      <ion-card-title style="font-size:13px; font-weight:600" [innerHtml]="card.title" (click)="openUrl(card.url_articulo)">
-                      </ion-card-title>
-                      <p style="font-size:11px" [innerHtml]="card.description | maxLengthText" (click)="openUrl(card.url_articulo)">
-                      </p>
+                      <ion-card-title style="font-size:13px; font-weight:600" [innerHtml]="card.title" (click)="openUrl(card.url_articulo)"></ion-card-title>
+                      <p style="font-size:11px" [innerHtml]="card.description | maxLengthText" (click)="openUrl(card.url_articulo)"></p>
                       <br>
-              
+                      <p style="font-size:11px">Categoría:</p>
+                      <p style="font-size:11px"> <i> {{ card.category }} </i></p>
                       <ion-row no-padding>
                         <ion-col style="text-align:left"  col-6>
                           <!-- <button    style="font-size:30px;" (tap)="saveCard(card, card.id)" ion-button clear color="danger" > -->
-                            <ion-icon tapabble color="danger" (tap)="saveCard(card, card.id)" style="font-size:30px; margin-top:13px" name="heart"></ion-icon>
+                            <ion-icon tapabble color="danger" (tap)="deleleteCard(card.id)" style="font-size:30px; margin-top:13px" name="heart"></ion-icon>
                           <!-- </button> -->
                         </ion-col>
                         <ion-col col-6 >

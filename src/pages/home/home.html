@@ -9,66 +9,59 @@
 
 <ion-content padding>
   <h2>¡Hola de nuevo
-    <span *ngIf="home">{{ home?.name | splicename }}!</span>
+    <span>{{ (user$ | async)?.name | splicename }}!</span>
   </h2>
   <p>
     Estos son algunos de los nuevos articulos que te podrían interesar:
   </p>
 
-  <div [@cardsAnimation]="cardsArray.length">
-    <ion-card *ngFor="let card of cardsArray; let i = index">
-      <img style="padding:15px" (click)="openUrl(card.url_articulo)" [src]="card.url_img | sinfoto" onError="this.src='assets/img/noimage.png'"/>
-      <ion-card-content>
-        <ion-card-title [innerHtml]="card.title" (click)="openUrl(card.url_articulo)">
-        </ion-card-title>
-        <p [innerHtml]="card.description" (click)="openUrl(card.url_articulo)">
-        </p>
-        <br>
-        <p>
-          <i [innerHtml]="card.source"></i>
-        </p>
+  <ng-container [@cardsAnimation]="(page.data | async)?.length">
+    <ng-container *ngFor="let card of page.data | async;trackBy:trackByFn; let i = index">
+      <ion-card>
+        <img style="padding:15px" (click)="openUrl(card.url_articulo)" [src]="card.url_img | sinfoto" onError="this.src='assets/img/noimage.png'"
+        />
+        <ion-card-content>
+          <ion-card-title [innerHtml]="card.title" (click)="openUrl(card.url_articulo)"></ion-card-title>
+          <p [innerHtml]="card.description" (click)="openUrl(card.url_articulo)"></p>
 
-        <ion-row no-padding>
-          <ion-col offset-1 no-padding>
-            <ion-icon (tap)="saveCard(card, card.id, i)"  color="danger" style="font-size:38px" class="show" [name]="likeArray[i] == true ?  'heart' : 'heart-outline'"></ion-icon>
+          <ion-row>
+            <ion-col>
+              <ion-note style="font-size: 14px; font-style:italic" [innerHtml]="card.date "></ion-note>
+            </ion-col>
+            <ion-col text-right>
+              <p style="display:inline-block">
+                <i [innerHtml]="card.source"></i>
+              </p>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+
+        <ion-row>
+          <ion-col>
+
+            <like-review [card]="card" [userId]="uid"></like-review>
 
           </ion-col>
-
-          <ion-col style="margin-left:10px" align-self-center no-padding>
-            <ion-note style="font-size: 11px;" [innerHtml]="card.date  | timeAgo">
-
+          <ion-col>
+            <button ion-button icon-left clear small>
+              <ion-icon name="text"></ion-icon>
+              <div>4 Comments</div>
+            </button>
+          </ion-col>
+          <ion-col center text-center>
+            <ion-note>
+              11h ago
             </ion-note>
           </ion-col>
-          <ion-col text-right right>
-            <ion-fab right middle>
-              <button color="danger" ion-fab mini>
-                <ion-icon name="md-share"></ion-icon>
-              </button>
-              <ion-fab-list side="top">
-                <button color="twitter" (tap)="socialSharingTwitter(card.url_articulo, card.title, card.description, card.url_img)" ion-fab>
-                  <ion-icon name="logo-twitter"></ion-icon>
-                </button>
-                <button color="facebook" (tap)="socialSharingFacebook(card.url_articulo, card.title, card.description, card.url_img)" ion-fab>
-                  <ion-icon name="logo-facebook"></ion-icon>
-                </button>
-              </ion-fab-list>
-              <ion-fab-list side="left">
-                <button color="whatsapp" (tap)="socialSharingWhatsApp(card.url_articulo, card.title, card.description, card.url_img)" ion-fab>
-                  <ion-icon class="iconfont icon-whatsapp"></ion-icon>
-                </button>
-              </ion-fab-list>
-            </ion-fab>
-          </ion-col>
-
         </ion-row>
-      </ion-card-content>
-    </ion-card>
-  </div>
+      </ion-card>
 
+    </ng-container>
+    <p *ngIf="page.done | async">I ran out of boats!</p>
+    <ion-infinite-scroll *ngIf="page.loading | async" (ionInfinite)="doInfinite($event)">
 
-  <!-- <ion-infinite-scroll (ionInfinite)="doInfinite()">
-    <ion-infinite-scroll-content
-    loadingSpinner="bubbles"
-    loadingText="Cargando más cards..."></ion-infinite-scroll-content>
-  </ion-infinite-scroll> -->
+        <ion-infinite-scroll-content  loadingSpinner="bubbles" loadingText="Cargando más cards..."></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+  </ng-container>
+
 </ion-content>

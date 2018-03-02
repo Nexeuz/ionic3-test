@@ -32,13 +32,8 @@ export class TabsPage {
   ionViewDidLoad() {
     
           this.fire.afAuth.authState.subscribe(data => {
-            this.UserCollection = this.firestore.collection<User>('users').doc(data.uid).collection('favs');
+            this.UserCollection = this.firestore.collection<User>('users').doc(data.uid).collection('saved_cards');
             this.cardsUsers = this.UserCollection.valueChanges();
-            this.cardsUsers.subscribe(data => {
-              this.cardsArray = data;
-              console.log(data);
-              
-            })
     
           })
       

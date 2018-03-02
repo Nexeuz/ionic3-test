@@ -23,9 +23,10 @@ import { FirebaseProvider } from '../providers/firebase/firebasepro';
 import { CommunProvider } from '../providers/commun/commun';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { CardProvider } from '../providers/card/card';
 import { ThemeableBrowser } from '@ionic-native/themeable-browser';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { FavProvider } from '../providers/fav/fav';
+import { PaginationProvider } from '../providers/pagination/pagination';
 
 
 
@@ -68,10 +69,11 @@ export const firebaseConfig = {
     Facebook,
     FirebaseProvider,
     CommunProvider,
-    CardProvider,
     BrowserTab,
     ThemeableBrowser,
     SocialSharing,
+    FavProvider,
+    PaginationProvider,
   ]
 })
 export class AppModule {}

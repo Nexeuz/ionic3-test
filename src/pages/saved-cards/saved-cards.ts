@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, ToastController, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { FirebaseProvider } from '../../providers/firebase/firebasepro';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { User, Card } from '../../providers/interfaces';
 import { Observable } from 'rxjs/Observable';
+import { BrowserTab } from '@ionic-native/browser-tab';
+import { ThemeableBrowser } from '@ionic-native/themeable-browser';
+import { SocialSharing } from '@ionic-native/social-sharing';
+
 
 
 
@@ -25,25 +29,31 @@ export class SavedCardsPage {
 
   private UserCollection: AngularFirestoreCollection<Card>;
   cardsUsers: Observable<Card[]>;
-  cardsArray = [];
+  loadingSharing:any;
+  msgsharing: string;
+  uid;
 
-
-  constructor(private firestore: AngularFirestore, public loading: LoadingController, private fire: FirebaseProvider, public navCtrl: NavController, public navParams: NavParams) {
+  constructor( private sharing: SocialSharing, public toast: ToastController, private browserChrome: BrowserTab, private themeable: ThemeableBrowser, private firestore: AngularFirestore, public loading: LoadingController, private fire: FirebaseProvider, public navCtrl: NavController, public navParams: NavParams) {
+    this.msgsharing = 'Compartido App la increible App sin nombre';
+    
   }
 
   ionViewDidLoad() {
 
-      this.fire.afAuth.authState.subscribe(data => {
-        this.UserCollection = this.firestore.collection<User>('users').doc(data.uid).collection('favs');
-        this.cardsUsers = this.UserCollection.valueChanges();
-        this.cardsUsers.subscribe(data => {
-          this.cardsArray = data;
-          console.log(data);
-          
-        })
+    this.fire.afAuth.authState.subscribe(data => {
+      this.uid = data.uid;
+      this.UserCollection = this.firestore.collection<User>('users').doc(data.uid).collection('saved_cards');
+      this.cardsUsers = this.UserCollection.valueChanges();
 
-      })
+    })
+
+    
+  }
+
   
+
+  trackByFn(index: number) {
+    return index != null ? index : null;
   }
   logout() {
 
@@ -57,4 +67,112 @@ export class SavedCardsPage {
       loader.dismiss();
     });
   }
+
+
+  openUrl(url) {
+    this.browserChrome.isAvailable().then((isAvailable: boolean) => {
+
+      if (isAvailable) {
+        this.browserChrome.openUrl(url);
+      } else {
+        this.themeable.create(url, '_blank', {})
+      }
+    })
+  }
+
+  deleleteCard(idCard) {
+
+    const toast = this.toast.create({
+      message: 'Articulo eliminado correctamente',
+      duration: 2500,
+      position: 'top'
+    });
+
+    toast.present();
+
+    const refLikeCard = this.firestore.collection('cards')
+    .doc(idCard)
+    .collection('likes')
+    .doc(`${ this.uid }_${ idCard }`);
+
+    refLikeCard.update({like: false});
+
+
+    const refUserSave = this.firestore.collection('users')
+    .doc(this.uid)
+    .collection('saved_cards')
+    .doc(`${ this.uid }_${ idCard }`);
+
+    refUserSave.delete();
+
+  
+  }
+
+  loadingSharingMethod() {
+    this.loadingSharing = this.loading.create({
+      content: 'Preparando para compartir...'
+    })
+
+    this.loadingSharing.present();
+  }
+
+  // socialSharingFacebook(url_articulo: string, title: string, description: string, url_img: string) {
+
+  //   this.loadingSharingMethod()
+
+  //   const titulo = title;
+  //   const finalUper = titulo.toUpperCase();
+
+
+  //   const msg = finalUper + ' ' + description + ' ' + this.msgsharing;
+  //   this.sharing.shareViaFacebook(msg, null, url_articulo).then((data) => {
+  //     console.log(data);
+
+  //     this.loadingSharing.dismiss();
+  //   }).catch((data) => {
+  //     console.log(data);
+
+  //     this.loadingSharing.dismiss();
+  //   })
+  // }
+
+  // socialSharingTwitter(url_articulo: string, title: string, description: string, url_img: string) {
+
+  //   this.loadingSharingMethod();
+
+  //   const titulo = title;
+  //   const finalUper = titulo.toUpperCase();
+
+
+  //   const msg = finalUper + ' ' + description + ' ' + this.msgsharing;
+  //   this.sharing.shareViaTwitter(msg, url_img, url_articulo).then((data) => {
+  //     console.log(data);
+  //     this.loadingSharing.dismiss();
+  //   }).catch((data) => {
+  //     console.log(data);
+
+  //     this.loadingSharing.dismiss();
+  //   })
+  // }
+
+  // socialSharingWhatsApp(url_articulo: string, title: string, description: string, url_img: string) {
+
+  //   this.loadingSharingMethod();
+
+
+  //   const titulo = title;
+  //   const finalUper = titulo.toUpperCase();
+
+
+  //   const msg = finalUper + ' ' + description + ' ' + this.msgsharing;
+  //   this.sharing.shareViaWhatsApp(msg, url_img, url_articulo).then((data) => {
+  //     console.log(data);
+
+  //     this.loadingSharing.dismiss();
+  //   }).catch((data) => {
+  //     console.log(data);
+
+  //     this.loadingSharing.dismiss();
+  //   })
+  // }
 }
