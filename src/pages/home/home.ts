@@ -82,9 +82,8 @@ export class HomePage implements OnInit {
       
     });
 
+      
 
-
-      this.page.init('cards', 'date', { reverse: false, prepend: false })
 
     
 
