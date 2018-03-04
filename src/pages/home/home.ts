@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, IonicPage, NavParams } from 'ionic-angular';
 import { FirebaseProvider } from '../../providers/firebase/firebasepro';
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
@@ -30,7 +30,7 @@ import { PaginationProvider } from '../../providers/pagination/pagination';
     ])
   ]
 })
-export class HomePage implements OnInit {
+export class HomePage  {
 
   msgsharing;
 
@@ -54,7 +54,7 @@ export class HomePage implements OnInit {
 
 
 
-  constructor(public page: PaginationProvider, private params: NavParams, private themeable: ThemeableBrowser, private loading: LoadingController, private sharing: SocialSharing, private browserChrome: BrowserTab, public firebase: FirebaseProvider, private firestore: AngularFirestore, public navCtrl: NavController) {
+  constructor(  public page: PaginationProvider, private params: NavParams, private themeable: ThemeableBrowser, private loading: LoadingController, private sharing: SocialSharing, private browserChrome: BrowserTab, public firebase: FirebaseProvider, private firestore: AngularFirestore, public navCtrl: NavController) {
     this.msgsharing = 'Compartido App la increible App sin nombre';
 
 
@@ -67,8 +67,7 @@ export class HomePage implements OnInit {
 
   }
 
-  ngOnInit() {
-  }
+ 
 
 
 
@@ -76,21 +75,24 @@ export class HomePage implements OnInit {
     this.firebase.afAuth.authState.subscribe(data => {
       this.uid = data.uid;
       this.usersDocref = this.firestore.doc<User>(`users/${this.uid}`);
-      this.user$ = this.usersDocref.valueChanges();
-
-
-      
+      this.user$ = this.usersDocref.valueChanges();      
     });
 
       
-
-
+    this.cardsCollection =  this.firestore.collection<Card>('cards', ref=> ref.orderBy('date', 'desc'));
     
+    this.cards = this.cardsCollection.valueChanges();
+
+    this.cards.subscribe(data => {
+      console.log('Cards =>', data);
+      
+    })
+
 
   }
 
-  trackByFn(index: number) {
-    return index != null ? index : null;
+  trackByFn(index: number, card) {
+    return card.id;
   }
   
 

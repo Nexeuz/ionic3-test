@@ -23,23 +23,39 @@ export class TabsPage {
 
 
   private UserCollection: AngularFirestoreCollection<Card>;
-  cardsUsers: Observable<Card[]>;
-  cardsArray = [];
+  public cardsUsers: Observable<Card[]>;
+
   constructor(private firestore: AngularFirestore, private fire: FirebaseProvider, public params: NavParams) {
   
   }
 
   ionViewDidLoad() {
     
-          this.fire.afAuth.authState.subscribe(data => {
+      this.cardsUsers = this.fire.afAuth.authState.switchMap(data => {
             this.UserCollection = this.firestore.collection<User>('users').doc(data.uid).collection('saved_cards');
-            this.cardsUsers = this.UserCollection.valueChanges();
-    
-          })
-      
-      }
+            return this.UserCollection.valueChanges();
+          });  
 
 
+   
+  }
+
+
+  // ionViewCanEnter(): Observable<boolean> {
+
+
+  //   const verifyauth =  this.fire.afAuth.authState.map(data => {
+  //     if(data) {
+  //       return true;
+  //     }else {
+  //       console.log('Usuario debe estar logeado primero');
+  //       return false;
+        
+  //     }
+  //    });
+ 
+  //   return verifyauth;
+  // }
 
 
 }

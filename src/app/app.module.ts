@@ -5,11 +5,6 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { BrowserTab } from '@ionic-native/browser-tab';
-
-
-
-
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -33,12 +28,12 @@ import { PaginationProvider } from '../providers/pagination/pagination';
 
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyA5j33FCBaQJxPEnZ29BNlokHwEr6cOCJY",
-  authDomain: "brandingmarketingdev.firebaseapp.com",
-  databaseURL: "https://brandingmarketingdev.firebaseio.com",
-  projectId: "brandingmarketingdev",
-  storageBucket: "brandingmarketingdev.appspot.com",
-  messagingSenderId: "837247607205"
+  apiKey: "AIzaSyBEgZQggMH7H2VzWZBJci6ikMm9Iv2GscE",
+  authDomain: "nexeuznico.firebaseapp.com",
+  databaseURL: "https://nexeuznico.firebaseio.com",
+  projectId: "nexeuznico",
+  storageBucket: "",
+  messagingSenderId: "899182849829"
 };
 
 @NgModule({
@@ -74,6 +69,6 @@ export const firebaseConfig = {
     SocialSharing,
     FavProvider,
     PaginationProvider,
-  ]
+    ]
 })
 export class AppModule {}

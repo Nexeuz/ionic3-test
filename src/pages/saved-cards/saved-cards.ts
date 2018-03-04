@@ -6,7 +6,7 @@ import { User, Card } from '../../providers/interfaces';
 import { Observable } from 'rxjs/Observable';
 import { BrowserTab } from '@ionic-native/browser-tab';
 import { ThemeableBrowser } from '@ionic-native/themeable-browser';
-import { SocialSharing } from '@ionic-native/social-sharing';
+// import { SocialSharing } from '@ionic-native/social-sharing';
 
 
 
@@ -32,8 +32,8 @@ export class SavedCardsPage {
   loadingSharing:any;
   msgsharing: string;
   uid;
-
-  constructor( private sharing: SocialSharing, public toast: ToastController, private browserChrome: BrowserTab, private themeable: ThemeableBrowser, private firestore: AngularFirestore, public loading: LoadingController, private fire: FirebaseProvider, public navCtrl: NavController, public navParams: NavParams) {
+      //private sharing: SocialSharing
+  constructor(  public toast: ToastController, private browserChrome: BrowserTab, private themeable: ThemeableBrowser, private firestore: AngularFirestore, public loading: LoadingController, private fire: FirebaseProvider, public navCtrl: NavController, public navParams: NavParams) {
     this.msgsharing = 'Compartido App la increible App sin nombre';
     
   }
@@ -115,6 +115,8 @@ export class SavedCardsPage {
 
     this.loadingSharing.present();
   }
+
+
 
   // socialSharingFacebook(url_articulo: string, title: string, description: string, url_img: string) {
 

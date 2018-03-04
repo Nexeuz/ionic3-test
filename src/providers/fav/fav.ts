@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Like, Card } from '../interfaces';
 import { Observable } from 'rxjs/Observable';
 
@@ -26,29 +26,26 @@ export class FavProvider {
  * @param cardId id card generated form collection cards firebase cards/{cardId}
  *  
  */
-  getUserLike(userId, cardId): Observable<Like> {
+  getUserLike(userId, cardId): Observable<any> {
 
     const cardsRef : AngularFirestoreCollection<Card> = this.afs.collection<Card>('cards');
     
-    const likesRef:  AngularFirestoreDocument<any> = cardsRef
-    .doc(cardId)
-    .collection<Like>('likes')
-    .doc(`${userId}_${cardId}`);
+    const refLike = cardsRef.doc(cardId).collection<Like>('likes').doc(`${userId}_${cardId}`);
     
-    return likesRef.valueChanges();
+    return refLike.valueChanges().map((like: Like) => {
+      if(like == null) {
+        return false;
+      }else{
+        return like.like;
+      }
+    });
   }
 
-
-  
-
-  setLike(userId, card: Card, like) {
+  setLike(userId, cardid, like) {
     
     const likeObject = { userId , like };
 
-    const likePath = `cards/${ card.id }/likes/${ userId }_${ card.id }`;
-
-
-
+    const likePath = `cards/${ cardid }/likes/${ userId }_${ cardid }`;
 
     return this.afs.doc(likePath).set(likeObject);
 

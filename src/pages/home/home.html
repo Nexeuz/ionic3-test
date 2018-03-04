@@ -15,8 +15,8 @@
     Estos son algunos de los nuevos articulos que te podrían interesar:
   </p>
 
-  <ng-container [@cardsAnimation]="(page.data | async)?.length">
-    <ng-container *ngFor="let card of page.data | async;trackBy:trackByFn; let i = index">
+  <div [@cardsAnimation]="(cards | async)?.length">
+    <ng-container *ngFor="let card of cards | async;trackBy:trackByFn; let i = index">
       <ion-card>
         <img style="padding:15px" (click)="openUrl(card.url_articulo)" [src]="card.url_img | sinfoto" onError="this.src='assets/img/noimage.png'"
         />
@@ -26,7 +26,7 @@
 
           <ion-row>
             <ion-col>
-              <ion-note style="font-size: 14px; font-style:italic" [innerHtml]="card.date "></ion-note>
+              <ion-note style="font-size: 14px; font-style:italic" [innerHtml]="card.date | timeAgo"></ion-note>
             </ion-col>
             <ion-col text-right>
               <p style="display:inline-block">
@@ -36,32 +36,42 @@
           </ion-row>
         </ion-card-content>
 
-        <ion-row>
-          <ion-col>
+        <ion-row justify-content-center>
+          <ion-col col-4>
 
-            <like-review [card]="card" [userId]="uid"></like-review>
+            <ion-row >
+              <ion-col col-5 col-md-2>
+                <like-review [cardId]="card.id" [userId]="uid"></like-review>
+              </ion-col>
+
+              <ion-col   col-7 push-1  >
+                <div style="margin-top: 21px;
+                font-weight: 500;
+                font-size: 21px;
+                color: #f53d3d;
+                margin-left:2px">{{ card.likes }}</div>
+
+              </ion-col>
+
+            </ion-row>
 
           </ion-col>
-          <ion-col>
-            <button ion-button icon-left clear small>
-              <ion-icon name="text"></ion-icon>
-              <div>4 Comments</div>
+          <ion-col col-4 text-center>
+            <button color="dark" ion-button icon-start large clear>
+              <ion-icon style="font-size: 33px; margin-top: 6px; padding-right: 8px;" color="dark" ios="ios-text" md="ios-text"></ion-icon>
+              <div style="margin-top: 4px;"> 4</div>
             </button>
           </ion-col>
-          <ion-col center text-center>
-            <ion-note>
-              11h ago
-            </ion-note>
+          <ion-col col-4 text-right>
+            <button ion-button large icon-start clear>
+              <ion-icon style="margin-top: 5px; font-size: 29px;" color="whatsapp" ios="ios-share" md="md-share"></ion-icon>
+              <div></div>
+            </button>
           </ion-col>
         </ion-row>
       </ion-card>
 
     </ng-container>
-    <p *ngIf="page.done | async">I ran out of boats!</p>
-    <ion-infinite-scroll *ngIf="page.loading | async" (ionInfinite)="doInfinite($event)">
-
-        <ion-infinite-scroll-content  loadingSpinner="bubbles" loadingText="Cargando más cards..."></ion-infinite-scroll-content>
-      </ion-infinite-scroll>
-  </ng-container>
+  </div>
 
 </ion-content>

@@ -104,14 +104,15 @@ export class FirebaseProvider {
   signInWithFacebook(): any {
     // debugger
     this.presentLoading()
-    if (this.platform.is('cordova')) {// login with  platform android e ios.
+    const cordova = this.platform.is('cordova');
+    if (cordova) {// login with  platform android e ios.
       return this.fb.login(['email', 'public_profile']).then(res => {
         const facebookCredential = firebase.auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
         return firebase.auth().signInWithCredential(facebookCredential).then((data) => {
           this.loader.dismiss();
           this.authState = data;
           this.fbid = data.uid;
-          +          this.updateUserData();
+          this.updateUserData();
         });
       }).catch((error) => {
         this.loader.dismiss();

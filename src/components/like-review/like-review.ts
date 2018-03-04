@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef, AfterViewChecked, OnChanges, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { FavProvider } from '../../providers/fav/fav';
 import { Card } from '../../providers/interfaces';
@@ -14,10 +14,10 @@ import { AngularFirestore } from 'angularfire2/firestore';
   selector: 'like-review',
   templateUrl: 'like-review.html'
 })
-export class LikeReviewComponent implements OnInit {
+export class LikeReviewComponent implements OnInit, AfterViewChecked, OnChanges {
 
-  @Input() userId;
-  @Input() card: Card;
+  @Input() userId: string ;
+  @Input() cardId: string;
 
   likesObservable: Observable<any>;
 
@@ -27,17 +27,51 @@ export class LikeReviewComponent implements OnInit {
 
 
 
-  constructor(private fav: FavProvider, private af: AngularFirestore) {
+  constructor(private fav: FavProvider, private af: AngularFirestore, private cfRef: ChangeDetectorRef) {
     console.log('Hello LikeReviewComponent Component');
   }
 
-  ngOnInit() {
 
-    this.likesObservable = this.fav.getUserLike(this.userId, this.card.id);
+  ngAfterViewChecked()
+{
+  this.cfRef.detectChanges();
+}
+
+
+
+get mycardId(): string {
+
+  return this.cardId;
+
+}
+
+get myuserId(): string {
+
+  return this.userId;
+
+}
+
+ngOnChanges(changes: SimpleChanges) {
+  
+  this.likesObservable = this.fav.getUserLike(this.myuserId, this.cardId);
+
+  const sus = this.likesObservable.subscribe(data => {
+    console.log(data);
+    
+  })
+  
+}
+  ngOnInit() {
+ 
+
+
+
+
   }
 
 
   likeHandler(value: string) {
+
     
     let like: boolean;
 
@@ -46,9 +80,9 @@ export class LikeReviewComponent implements OnInit {
       like = false;
 
       const refUser = this.af.collection('users')
-      .doc(this.userId)
+      .doc(this.myuserId)
       .collection('saved_cards')
-      .doc(`${this.userId}_${this.card.id}`);
+      .doc(`${this.myuserId}_${this.mycardId }`);
 
       refUser.delete();
 
@@ -56,14 +90,21 @@ export class LikeReviewComponent implements OnInit {
 
       like = true;
 
-      const userPath = `users/${ this.userId }/saved_cards/${ this.userId }_${ this.card.id }`;
+      const userPath = `users/${ this.myuserId }/saved_cards/${ this.myuserId }_${ this.mycardId }`;
 
-      this.af.doc(userPath).set(this.card);
+
+      const docCard = this.af.doc(`cards/${this.mycardId}`).ref
+
+      docCard
+      .get()
+      .then(( query )=> {
+          const card = query.data();
+          this.af.doc(userPath).set(card);
+      })
 
     }
 
-
-    this.fav.setLike(this.userId, this.card, like);
+    this.fav.setLike(this.userId, this.mycardId, like);
 
   }
 
