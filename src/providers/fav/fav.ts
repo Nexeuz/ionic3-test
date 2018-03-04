@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Like, Card } from '../interfaces';
 import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
 
 
 /*
@@ -32,13 +33,15 @@ export class FavProvider {
     
     const refLike = cardsRef.doc(cardId).collection<Like>('likes').doc(`${userId}_${cardId}`);
     
-    return refLike.valueChanges().map((like: Like) => {
+    return refLike.valueChanges()
+    .pipe(
+      map((like: Like) => {
       if(like == null) {
         return false;
       }else{
         return like.like;
       }
-    });
+    }));
   }
 
   setLike(userId, cardid, like) {

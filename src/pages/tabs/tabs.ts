@@ -7,6 +7,7 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { Card, User } from '../../providers/interfaces';
 import { FirebaseProvider } from '../../providers/firebase/firebasepro';
 import { Observable } from "rxjs/observable";
+import { switchMap } from 'rxjs/operators';
 
 
 
@@ -31,10 +32,13 @@ export class TabsPage {
 
   ionViewDidLoad() {
     
-      this.cardsUsers = this.fire.afAuth.authState.switchMap(data => {
+      this.cardsUsers = this.fire.afAuth.authState
+      .pipe(
+        switchMap(data => {
             this.UserCollection = this.firestore.collection<User>('users').doc(data.uid).collection('saved_cards');
             return this.UserCollection.valueChanges();
-          });  
+          })
+        );  
 
 
    

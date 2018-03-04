@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/map';
 import { AlertController } from 'ionic-angular';
 import { FirebaseProvider } from '../../providers/firebase/firebasepro';
 

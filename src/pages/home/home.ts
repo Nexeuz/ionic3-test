@@ -4,14 +4,12 @@ import { FirebaseProvider } from '../../providers/firebase/firebasepro';
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 
-import 'rxjs/add/operator/switchMap';
 import { LoadingController } from 'ionic-angular';
 import { BrowserTab } from '@ionic-native/browser-tab';
 import { ThemeableBrowser } from '@ionic-native/themeable-browser';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { query, stagger, trigger, transition, style, animate } from '@angular/animations';
 import { Like, User, Card } from '../../providers/interfaces';
-import { PaginationProvider } from '../../providers/pagination/pagination';
 
 
 @IonicPage()
@@ -54,7 +52,7 @@ export class HomePage  {
 
 
 
-  constructor(  public page: PaginationProvider, private params: NavParams, private themeable: ThemeableBrowser, private loading: LoadingController, private sharing: SocialSharing, private browserChrome: BrowserTab, public firebase: FirebaseProvider, private firestore: AngularFirestore, public navCtrl: NavController) {
+  constructor(private params: NavParams, private themeable: ThemeableBrowser, private loading: LoadingController, private sharing: SocialSharing, private browserChrome: BrowserTab, public firebase: FirebaseProvider, private firestore: AngularFirestore, public navCtrl: NavController) {
     this.msgsharing = 'Compartido App la increible App sin nombre';
 
 
@@ -83,10 +81,6 @@ export class HomePage  {
     
     this.cards = this.cardsCollection.valueChanges();
 
-    this.cards.subscribe(data => {
-      console.log('Cards =>', data);
-      
-    })
 
 
   }

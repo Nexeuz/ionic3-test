@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, ChangeDetectorRef, AfterViewChecked, OnChanges, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { FavProvider } from '../../providers/fav/fav';
-import { Card } from '../../providers/interfaces';
 import { AngularFirestore } from 'angularfire2/firestore';
 
 /**
@@ -55,10 +54,7 @@ ngOnChanges(changes: SimpleChanges) {
   
   this.likesObservable = this.fav.getUserLike(this.myuserId, this.cardId);
 
-  const sus = this.likesObservable.subscribe(data => {
-    console.log(data);
-    
-  })
+
   
 }
   ngOnInit() {

@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { Facebook } from '@ionic-native/facebook';
 import { Platform, AlertController, LoadingController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/switchMap';
 import { User } from '../interfaces'
+import { switchMap } from 'rxjs/operators';
 
 
 
@@ -26,15 +25,19 @@ export class FirebaseProvider {
 
   constructor(private firestore: AngularFirestore, public loadingCtrl: LoadingController, public alertCtrl: AlertController, private platform: Platform, private fb: Facebook, public http: Http, public afAuth: AngularFireAuth) {
 
-    this.user = this.afAuth.authState.switchMap(user => {
+    this.user = this.afAuth.authState
+    .pipe(
+      switchMap(
+       user => {
       debugger
       // this.authState = user;
       if (user) {
         return this.firestore.doc<User>(`users/${user.uid}`).valueChanges();
       } else {
-        return Observable.of(null);
+        return Observable.throw(null);
       }
-    });
+    })
+  );
 
 
   }
