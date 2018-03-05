@@ -5,10 +5,11 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { Facebook } from '@ionic-native/facebook';
 import { Platform, AlertController, LoadingController } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
-import { User } from '../interfaces'
-import { switchMap } from 'rxjs/operators';
+import { User } from '../interfaces';
 
+
+import { Observable } from 'rxjs/Observable';
+import { switchMap } from 'rxjs/operators';
 
 
 
@@ -29,12 +30,11 @@ export class FirebaseProvider {
     .pipe(
       switchMap(
        user => {
-      debugger
-      // this.authState = user;
+      this.authState = user;
       if (user) {
         return this.firestore.doc<User>(`users/${user.uid}`).valueChanges();
       } else {
-        return Observable.throw(null);
+        return Observable.of(null);
       }
     })
   );
@@ -58,8 +58,11 @@ export class FirebaseProvider {
 
   // Returns current user UID
   get currentUserId(): string {
-    debugger
-    return this.authenticated ? this.authState.user.uid : '';
+    if(this.authState.uid == null) {
+      return this.authenticated ? this.authState.user.uid : '';
+    }else {
+      return this.authenticated ? this.authState.uid : '';
+    }
   }
 
   // Returns current user Facebook UID
@@ -78,6 +81,7 @@ export class FirebaseProvider {
 
   // Returns current user display name or Guest
   get currentUserDisplayName(): string {
+    // debugger
     if (!this.authState.displayName) {
       return this.authState.user.displayName;
     } else {
@@ -219,14 +223,14 @@ export class FirebaseProvider {
   private updateUserData(nombre?: string) {
 
     if (!nombre) {
-      const userRef = this.firestore.doc(`users/${this.fbid}`).ref; // estoy creando una referencia o apuntando a ellla si no existe.
+      const userRef = this.firestore.doc(`users/${this.currentUserId}`).ref; // estoy creando una referencia o apuntando a ellla si no existe.
 
       userRef.get().then(doc => {
         if (doc.exists) {
 
         } else {
           const user: User = {
-            uid: this.fbid,
+            uid: this.currentUserId,
             name: this.currentUserDisplayName,
             admin: false,
             email: this.currentEmail
@@ -236,11 +240,11 @@ export class FirebaseProvider {
       });
     } else {
 
-      const userRef = this.firestore.doc(`users/${this.authState.uid}`).ref; // estoy creando una referencia o apuntando a ellla si no existe.
+      const userRef = this.firestore.doc(`users/${this.currentUserId}`).ref; // estoy creando una referencia o apuntando a ellla si no existe.
       
       userRef.get().then(() => {
         const user: User = {
-          uid: this.authState.uid,
+          uid:  this.currentUserId,
           name:  nombre,
           admin: false,
           email: this.currentEmail

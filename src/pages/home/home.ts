@@ -58,8 +58,6 @@ export class HomePage  {
 
     this.categoria = this.params.data;
 
-
-
     console.log('categoria es', this.categoria);
 
 
@@ -69,14 +67,7 @@ export class HomePage  {
 
 
 
-  ionViewDidLoad() {
-    this.firebase.afAuth.authState.subscribe(data => {
-      this.uid = data.uid;
-      this.usersDocref = this.firestore.doc<User>(`users/${this.uid}`);
-      this.user$ = this.usersDocref.valueChanges();      
-    });
-
-      
+  ionViewDidLoad() {     
     this.cardsCollection =  this.firestore.collection<Card>('cards', ref=> ref.orderBy('date', 'desc'));
     
     this.cards = this.cardsCollection.valueChanges();

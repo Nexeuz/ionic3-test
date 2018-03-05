@@ -7,7 +7,7 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { Card, User } from '../../providers/interfaces';
 import { FirebaseProvider } from '../../providers/firebase/firebasepro';
 import { Observable } from "rxjs/observable";
-import { switchMap } from 'rxjs/operators';
+
 
 
 
@@ -17,7 +17,7 @@ import { switchMap } from 'rxjs/operators';
 })
 export class TabsPage {
 
-  tab1Root =  Tab1Root;
+  tab1Root = Tab1Root;
   tab2Root = Tab2Root;
 
   categoria: any;
@@ -27,22 +27,29 @@ export class TabsPage {
   public cardsUsers: Observable<Card[]>;
 
   constructor(private firestore: AngularFirestore, private fire: FirebaseProvider, public params: NavParams) {
-  
+
   }
 
-  ionViewDidLoad() {
-    
-      this.cardsUsers = this.fire.afAuth.authState
-      .pipe(
-        switchMap(data => {
-            this.UserCollection = this.firestore.collection<User>('users').doc(data.uid).collection('saved_cards');
-            return this.UserCollection.valueChanges();
-          })
-        );  
+  ionViewWillEnter() {
+    // debugger
+
+    this.UserCollection = this.firestore.collection<User>('users').doc(this.fire.currentUserId).collection('saved_cards');
+     this.cardsUsers = this.UserCollection.valueChanges();
 
 
-   
+
   }
+
+  ionViewCanEnter() {
+
+    if (this.fire.authenticated === false) {
+      console.error('usuario no logeado');
+    }
+
+    return this.fire.authenticated;
+  }
+
+
 
 
   // ionViewCanEnter(): Observable<boolean> {
@@ -54,10 +61,10 @@ export class TabsPage {
   //     }else {
   //       console.log('Usuario debe estar logeado primero');
   //       return false;
-        
+
   //     }
   //    });
- 
+
   //   return verifyauth;
   // }
 

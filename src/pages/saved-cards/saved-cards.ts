@@ -31,21 +31,19 @@ export class SavedCardsPage {
   cardsUsers: Observable<Card[]>;
   loadingSharing:any;
   msgsharing: string;
-  uid;
       //private sharing: SocialSharing
-  constructor(  public toast: ToastController, private browserChrome: BrowserTab, private themeable: ThemeableBrowser, private firestore: AngularFirestore, public loading: LoadingController, private fire: FirebaseProvider, public navCtrl: NavController, public navParams: NavParams) {
+  constructor( private fireS: FirebaseProvider, public toast: ToastController, private browserChrome: BrowserTab, private themeable: ThemeableBrowser, private firestore: AngularFirestore, public loading: LoadingController, private fire: FirebaseProvider, public navCtrl: NavController, public navParams: NavParams) {
     this.msgsharing = 'Compartido App la increible App sin nombre';
     
   }
 
   ionViewDidLoad() {
 
-    this.fire.afAuth.authState.subscribe(data => {
-      this.uid = data.uid;
-      this.UserCollection = this.firestore.collection<User>('users').doc(data.uid).collection('saved_cards');
+  
+      this.UserCollection = this.firestore.collection<User>('users').doc(this.fireS.currentUserId).collection('saved_cards');
       this.cardsUsers = this.UserCollection.valueChanges();
 
-    })
+  
 
     
   }
@@ -93,15 +91,15 @@ export class SavedCardsPage {
     const refLikeCard = this.firestore.collection('cards')
     .doc(idCard)
     .collection('likes')
-    .doc(`${ this.uid }_${ idCard }`);
+    .doc(`${this.fireS.currentUserId }_${ idCard }`);
 
     refLikeCard.update({like: false});
 
 
     const refUserSave = this.firestore.collection('users')
-    .doc(this.uid)
+    .doc(this.fireS.currentUserId)
     .collection('saved_cards')
-    .doc(`${ this.uid }_${ idCard }`);
+    .doc(`${ this.fireS.currentUserId }_${ idCard }`);
 
     refUserSave.delete();
 

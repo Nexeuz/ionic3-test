@@ -32,6 +32,16 @@ export class CreateAccountEmailPage {
     this.closeObservable.unsubscribe();
   }
 
+  ionViewCanEnter() {
+    
+    if(this.fire.authenticated === true) {
+      console.log('usuario logeado');
+
+    }
+
+    return !this.fire.authenticated;
+  }
+
   buildForm(): void {
     this.registrerForm = this.fb.group({
       'nombre': ['', [

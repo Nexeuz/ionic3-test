@@ -9,7 +9,7 @@
 
 <ion-content padding>
   <h2>¡Hola de nuevo
-    <span>{{ (user$ | async)?.name | splicename }}!</span>
+    <span>{{ (firebase.user | async)?.name | splicename }}!</span>
   </h2>
   <p>
     Estos son algunos de los nuevos articulos que te podrían interesar:
@@ -41,7 +41,7 @@
 
             <ion-row >
               <ion-col col-5 col-md-2>
-                <like-review [cardId]="card.id" [userId]="uid"></like-review>
+                <like-review [cardId]="card.id"></like-review>
               </ion-col>
 
               <ion-col   col-7 push-1  >

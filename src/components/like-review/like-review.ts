@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ChangeDetectorRef, AfterViewChecked, OnChange
 import { Observable } from 'rxjs/Observable';
 import { FavProvider } from '../../providers/fav/fav';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { FirebaseProvider } from '../../providers/firebase/firebasepro';
 
 /**
  * Generated class for the LikeReviewComponent component.
@@ -15,7 +16,6 @@ import { AngularFirestore } from 'angularfire2/firestore';
 })
 export class LikeReviewComponent implements OnInit, AfterViewChecked, OnChanges {
 
-  @Input() userId: string ;
   @Input() cardId: string;
 
   likesObservable: Observable<any>;
@@ -26,7 +26,7 @@ export class LikeReviewComponent implements OnInit, AfterViewChecked, OnChanges 
 
 
 
-  constructor(private fav: FavProvider, private af: AngularFirestore, private cfRef: ChangeDetectorRef) {
+  constructor(private fireS: FirebaseProvider, private fav: FavProvider, private af: AngularFirestore, private cfRef: ChangeDetectorRef) {
     console.log('Hello LikeReviewComponent Component');
   }
 
@@ -44,15 +44,13 @@ get mycardId(): string {
 
 }
 
-get myuserId(): string {
 
-  return this.userId;
-
-}
 
 ngOnChanges(changes: SimpleChanges) {
-  
-  this.likesObservable = this.fav.getUserLike(this.myuserId, this.cardId);
+
+
+  // debugger
+  this.likesObservable = this.fav.getUserLike(this.fireS.currentUserId, this.cardId);
 
 
   
@@ -68,7 +66,7 @@ ngOnChanges(changes: SimpleChanges) {
 
   likeHandler(value: string) {
 
-    
+    // debugger
     let like: boolean;
 
     if (value == 'true') {
@@ -76,9 +74,9 @@ ngOnChanges(changes: SimpleChanges) {
       like = false;
 
       const refUser = this.af.collection('users')
-      .doc(this.myuserId)
+      .doc(this.fireS.currentUserId )
       .collection('saved_cards')
-      .doc(`${this.myuserId}_${this.mycardId }`);
+      .doc(`${ this.fireS.currentUserId }_${ this.mycardId }`);
 
       refUser.delete();
 
@@ -86,7 +84,7 @@ ngOnChanges(changes: SimpleChanges) {
 
       like = true;
 
-      const userPath = `users/${ this.myuserId }/saved_cards/${ this.myuserId }_${ this.mycardId }`;
+      const userPath = `users/${ this.fireS.currentUserId }/saved_cards/${ this.fireS.currentUserId }_${ this.mycardId }`;
 
 
       const docCard = this.af.doc(`cards/${this.mycardId}`).ref
@@ -100,7 +98,7 @@ ngOnChanges(changes: SimpleChanges) {
 
     }
 
-    this.fav.setLike(this.userId, this.mycardId, like);
+    this.fav.setLike(this.fireS.currentUserId, this.mycardId, like);
 
   }
 

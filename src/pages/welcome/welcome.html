@@ -11,15 +11,19 @@
   <div class="splash-info">
     <div class="splash-logo"></div>
     <div color="light" class="splash-intro">
-       Marketing Branding App
+      My beautiful App
     </div>
   </div>
   <div padding>
-    <button color="email" ion-button block (tap)="createAccountwithEmail()"><ion-icon style="margin-right:7px"  ios="ios-mail" md="md-mail"></ion-icon>Crear cuenta con Email</button>
-    <button color="facebook" ion-button block (tap)="facebook()"><ion-icon style="margin-right:7px" ios="logo-facebook" md="logo-facebook"></ion-icon>Ingresar con Facebook</button>
+
+    
+    <button *ngIf="!fire.authenticated" color="email" ion-button block (tap)="createAccountwithEmail()"><ion-icon style="margin-right:7px"  ios="ios-mail" md="md-mail"></ion-icon>Crear cuenta con Email</button>
+    <button *ngIf="!fire.authenticated" color="facebook" ion-button block (tap)="facebook()"><ion-icon style="margin-right:7px" ios="logo-facebook" md="logo-facebook"></ion-icon>Ingresar con Facebook</button>
+    <button *ngIf="fire.authenticated" color="email" ion-button block (tap)="goToInicio()"><ion-icon style="margin-right:7px"  ios="ios-home" md="md-home"></ion-icon>Ir al inicio</button>
+
   </div>
 </ion-content>
 
-<ion-footer tappable (tap)="signInWithEmail()"  no-border>
+<ion-footer *ngIf="!fire.authenticated" tappable (tap)="signInWithEmail()"  no-border>
   <p  class="footer-text">¿Ya tienes cuenta? inicia sesión </p>
 </ion-footer>
