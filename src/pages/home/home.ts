@@ -55,8 +55,12 @@ export class HomePage  {
   constructor(private params: NavParams, private themeable: ThemeableBrowser, private loading: LoadingController, private sharing: SocialSharing, private browserChrome: BrowserTab, public firebase: FirebaseProvider, private firestore: AngularFirestore, public navCtrl: NavController) {
     this.msgsharing = 'Compartido App la increible App sin nombre';
 
-
+    
     this.categoria = this.params.data;
+
+    if( Object.keys(this.categoria).length == 0) {
+      this.categoria = 'default';  
+    }
 
     console.log('categoria es', this.categoria);
 
@@ -68,7 +72,13 @@ export class HomePage  {
 
 
   ionViewDidLoad() {     
-    this.cardsCollection =  this.firestore.collection<Card>('cards', ref=> ref.orderBy('date', 'desc'));
+
+    if(this.categoria ==='default') {
+      this.cardsCollection =  this.firestore.collection<Card>('cards', ref=> ref.orderBy('date', 'desc'));
+
+    } else {
+      this.cardsCollection =  this.firestore.collection<Card>('cards', ref=> ref.orderBy('date', 'desc').where('category', '==', this.categoria));
+    }
     
     this.cards = this.cardsCollection.valueChanges();
 

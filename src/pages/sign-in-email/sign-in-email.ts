@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FirebaseProvider } from '../../providers/firebase/firebasepro';
 import { CommunProvider } from '../../providers/commun/commun';
 
-import { MainPage } from '../pages'
 
 @IonicPage()
 @Component({
@@ -42,14 +41,7 @@ export class SignInEmailPage {
     const PASSWORD = this.myForm.value.password;
 
     this.fire.emailLogin(EMAIL, PASSWORD).then(data => {
-      if (data.email) {
-        const root = this.app.getRootNav();
-        root.popToRoot();
-        root.setRoot(MainPage).then(()=>{
-          loader.dismiss();                      
-        });
-      } else {
-        loader.dismiss();                      
+      if (data) {
         switch (data.code) {
           case 'auth/wrong-password': {
             this.commun.communAlert('Error al intentar iniciar sesión', 'La contraseña es incorrecta o el correo introducido no tiene contraseña.');
@@ -63,8 +55,10 @@ export class SignInEmailPage {
             this.commun.communAlert('Error al iniciar sesión','Ha ocurrido un error al iniciar sesión intentalo nuevamente más tarde.');
           }
         }
-      }
-    })
+        
+      } else {}
+      loader.dismiss();                      
+    }); 
 
   }
 

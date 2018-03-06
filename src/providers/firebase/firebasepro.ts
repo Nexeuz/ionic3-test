@@ -193,8 +193,11 @@ export class FirebaseProvider {
   }
 
   emailLogin(email: string, password: string) {
+    // debugger
     return this.afAuth.auth.signInWithEmailAndPassword(email, password)
-      .catch(error => {
+    .then(data => {
+         this.authState = data; 
+    }).catch(error => {
         console.log(error);
         return error;
       });

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.branding.marketing" version="0.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Marketing Branding</name>
-    <description>An awesome Ionic/Cordova app.</description>
+<widget id="com.nexeuz.app" version="0.0.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Nexeuz app</name>
+    <description>Una simple aplicación para leer y comentar noticias</description>
     <author email="fgonzalez@marketing-branding.pe" href="https://www.marketing-branding.pe/">Branding Marketing Team</author>
     <content src="index.html" />
     <access origin="*" />
@@ -84,8 +84,8 @@
     <plugin name="cordova-plugin-browsertab" spec="^0.2.0" />
     <plugin name="cordova-plugin-device" spec="^1.1.4" />
     <plugin name="cordova-plugin-facebook4" spec="^1.9.1">
-        <variable name="APP_ID" value="1910533375864872" />
-        <variable name="APP_NAME" value="Bran­d­i­n­g­M­a­r­k­e­t­i­n­gApp" />
+        <variable name="APP_ID" value="574148262927516" />
+        <variable name="APP_NAME" value="Nexeuz" />
     </plugin>
     <plugin name="cordova-plugin-splashscreen" spec="^4.0.3" />
     <plugin name="cordova-plugin-statusbar" spec="^2.2.2" />
