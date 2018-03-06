@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, IonicPage, NavParams } from 'ionic-angular';
 import { FirebaseProvider } from '../../providers/firebase/firebasepro';
-import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 
 import { LoadingController } from 'ionic-angular';
@@ -9,7 +9,7 @@ import { BrowserTab } from '@ionic-native/browser-tab';
 import { ThemeableBrowser } from '@ionic-native/themeable-browser';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { query, stagger, trigger, transition, style, animate } from '@angular/animations';
-import { Like, User, Card } from '../../providers/interfaces';
+import { Card } from '../../providers/interfaces';
 
 
 @IonicPage()
@@ -28,38 +28,35 @@ import { Like, User, Card } from '../../providers/interfaces';
     ])
   ]
 })
-export class HomePage  {
+export class HomePage {
 
   msgsharing;
 
-  usersDocref: AngularFirestoreDocument<User>;
-  user$: Observable<User>;
 
   loadingSharing: any;
 
   cardsCollection: AngularFirestoreCollection<Card>;
   cards: Observable<Card[]>;
 
-  refFav: AngularFirestoreDocument<Like>
-  refLikes;
-  streamFav: Observable<Like>;
-  changesLike: Observable<Like>;
-  likeArray = [];
-
-  uid: string;
-
   categoria: any;
 
 
 
-  constructor(private params: NavParams, private themeable: ThemeableBrowser, private loading: LoadingController, private sharing: SocialSharing, private browserChrome: BrowserTab, public firebase: FirebaseProvider, private firestore: AngularFirestore, public navCtrl: NavController) {
-    this.msgsharing = 'Compartido App la increible App sin nombre';
+  constructor(private params: NavParams, 
+    private themeable: ThemeableBrowser, 
+    private loading: LoadingController, 
+    private sharing: SocialSharing, 
+    private browserChrome: BrowserTab, 
+    public firebase: FirebaseProvider, 
+    private firestore: AngularFirestore, 
+    public navCtrl: NavController) {
+    this.msgsharing = 'Compartido App la increible App nexeuz';
 
-    
+
     this.categoria = this.params.data;
 
-    if( Object.keys(this.categoria).length == 0) {
-      this.categoria = 'default';  
+    if (Object.keys(this.categoria).length == 0) {
+      this.categoria = 'default';
     }
 
     console.log('categoria es', this.categoria);
@@ -67,19 +64,19 @@ export class HomePage  {
 
   }
 
- 
 
 
 
-  ionViewDidLoad() {     
 
-    if(this.categoria ==='default') {
-      this.cardsCollection =  this.firestore.collection<Card>('cards', ref=> ref.orderBy('date', 'desc'));
+  ionViewDidLoad() {
+
+    if (this.categoria === 'default') {
+      this.cardsCollection = this.firestore.collection<Card>('cards', ref => ref.orderBy('date', 'desc'));
 
     } else {
-      this.cardsCollection =  this.firestore.collection<Card>('cards', ref=> ref.orderBy('date', 'desc').where('category', '==', this.categoria));
+      this.cardsCollection = this.firestore.collection<Card>('cards', ref => ref.orderBy('date', 'desc').where('category', '==', this.categoria));
     }
-    
+
     this.cards = this.cardsCollection.valueChanges();
 
 
@@ -89,7 +86,7 @@ export class HomePage  {
   trackByFn(index: number, card) {
     return card.id;
   }
-  
+
 
   // doInfinite(event) {
   //   debugger
@@ -97,10 +94,10 @@ export class HomePage  {
   //     this.page.more();
   //     event.complete();
   //   }
-    
+
   // }
 
-  
+
 
   openUrl(url) {
     this.browserChrome.isAvailable().then((isAvailable: boolean) => {
@@ -127,66 +124,24 @@ export class HomePage  {
     this.loadingSharing.present();
   }
 
-  socialSharingFacebook(url_articulo: string, title: string, description: string, url_img: string) {
 
-    this.loadingSharingMethod()
-
-    const titulo = title;
-    const finalUper = titulo.toUpperCase();
-
-
-    const msg = finalUper + ' ' + description + ' ' + this.msgsharing;
-    this.sharing.shareViaFacebook(msg, null, url_articulo).then((data) => {
-      console.log(data);
-
-      this.loadingSharing.dismiss();
-    }).catch((data) => {
-      console.log(data);
-
-      this.loadingSharing.dismiss();
-    })
-  }
-
-  socialSharingTwitter(url_articulo: string, title: string, description: string, url_img: string) {
+  share(title: string, url_img: string, url: string) {
 
     this.loadingSharingMethod();
 
-    const titulo = title;
-    const finalUper = titulo.toUpperCase();
+    this.sharing.share(this.msgsharing, title, null, url)
+      .then(data => {
+        this.loadingSharing.dismiss();
+        console.log(data);
 
+      }).catch(err => {
 
-    const msg = finalUper + ' ' + description + ' ' + this.msgsharing;
-    this.sharing.shareViaTwitter(msg, url_img, url_articulo).then((data) => {
-      console.log(data);
-      this.loadingSharing.dismiss();
-    }).catch((data) => {
-      console.log(data);
+        this.loadingSharing.dismiss();
 
-      this.loadingSharing.dismiss();
-    })
+        console.log(err);
+      })
+
   }
-
-  socialSharingWhatsApp(url_articulo: string, title: string, description: string, url_img: string) {
-
-    this.loadingSharingMethod();
-
-
-    const titulo = title;
-    const finalUper = titulo.toUpperCase();
-
-
-    const msg = finalUper + ' ' + description + ' ' + this.msgsharing;
-    this.sharing.shareViaWhatsApp(msg, url_img, url_articulo).then((data) => {
-      console.log(data);
-
-      this.loadingSharing.dismiss();
-    }).catch((data) => {
-      console.log(data);
-
-      this.loadingSharing.dismiss();
-    })
-  }
-
 
 
 }

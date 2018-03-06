@@ -6,7 +6,7 @@ import { User, Card } from '../../providers/interfaces';
 import { Observable } from 'rxjs/Observable';
 import { BrowserTab } from '@ionic-native/browser-tab';
 import { ThemeableBrowser } from '@ionic-native/themeable-browser';
-// import { SocialSharing } from '@ionic-native/social-sharing';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 
 
@@ -32,7 +32,16 @@ export class SavedCardsPage {
   loadingSharing:any;
   msgsharing: string;
       //private sharing: SocialSharing
-  constructor( private fireS: FirebaseProvider, public toast: ToastController, private browserChrome: BrowserTab, private themeable: ThemeableBrowser, private firestore: AngularFirestore, public loading: LoadingController, private fire: FirebaseProvider, public navCtrl: NavController, public navParams: NavParams) {
+  constructor( private fireS: FirebaseProvider, 
+    public toast: ToastController, 
+    private browserChrome: BrowserTab, 
+    private themeable: ThemeableBrowser, 
+    private firestore: AngularFirestore, 
+    public loading: LoadingController, 
+    private fire: FirebaseProvider, 
+    public navCtrl: NavController, 
+    private sharing: SocialSharing, 
+    public navParams: NavParams) {
     this.msgsharing = 'Compartido App la increible App sin nombre';
     
   }
@@ -42,17 +51,16 @@ export class SavedCardsPage {
   
       this.UserCollection = this.firestore.collection<User>('users').doc(this.fireS.currentUserId).collection('saved_cards');
       this.cardsUsers = this.UserCollection.valueChanges();
-
-  
-
     
   }
 
   
 
-  trackByFn(index: number) {
-    return index != null ? index : null;
+  trackByFn(index: number, card) {
+    return card.id;
   }
+
+
   logout() {
 
     const loader = this.loading.create({
@@ -115,64 +123,23 @@ export class SavedCardsPage {
   }
 
 
+  share(title: string, url_img: string, url: string) {
 
-  // socialSharingFacebook(url_articulo: string, title: string, description: string, url_img: string) {
+    this.loadingSharingMethod();
 
-  //   this.loadingSharingMethod()
+    this.sharing.share(this.msgsharing, title, null, url)
+      .then(data => {
+        this.loadingSharing.dismiss();
+        console.log(data);
 
-  //   const titulo = title;
-  //   const finalUper = titulo.toUpperCase();
+      }).catch(err => {
 
+        this.loadingSharing.dismiss();
 
-  //   const msg = finalUper + ' ' + description + ' ' + this.msgsharing;
-  //   this.sharing.shareViaFacebook(msg, null, url_articulo).then((data) => {
-  //     console.log(data);
+        console.log(err);
+      })
 
-  //     this.loadingSharing.dismiss();
-  //   }).catch((data) => {
-  //     console.log(data);
+  }
 
-  //     this.loadingSharing.dismiss();
-  //   })
-  // }
-
-  // socialSharingTwitter(url_articulo: string, title: string, description: string, url_img: string) {
-
-  //   this.loadingSharingMethod();
-
-  //   const titulo = title;
-  //   const finalUper = titulo.toUpperCase();
-
-
-  //   const msg = finalUper + ' ' + description + ' ' + this.msgsharing;
-  //   this.sharing.shareViaTwitter(msg, url_img, url_articulo).then((data) => {
-  //     console.log(data);
-  //     this.loadingSharing.dismiss();
-  //   }).catch((data) => {
-  //     console.log(data);
-
-  //     this.loadingSharing.dismiss();
-  //   })
-  // }
-
-  // socialSharingWhatsApp(url_articulo: string, title: string, description: string, url_img: string) {
-
-  //   this.loadingSharingMethod();
-
-
-  //   const titulo = title;
-  //   const finalUper = titulo.toUpperCase();
-
-
-  //   const msg = finalUper + ' ' + description + ' ' + this.msgsharing;
-  //   this.sharing.shareViaWhatsApp(msg, url_img, url_articulo).then((data) => {
-  //     console.log(data);
-
-  //     this.loadingSharing.dismiss();
-  //   }).catch((data) => {
-  //     console.log(data);
-
-  //     this.loadingSharing.dismiss();
-  //   })
-  // }
+  
 }

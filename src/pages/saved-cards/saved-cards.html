@@ -35,28 +35,14 @@
                       <ion-row no-padding>
                         <ion-col style="text-align:left"  col-6>
                           <!-- <button    style="font-size:30px;" (tap)="saveCard(card, card.id)" ion-button clear color="danger" > -->
-                            <ion-icon tapabble color="danger" (tap)="deleleteCard(card.id)" style="font-size:30px; margin-top:13px" name="heart"></ion-icon>
+                            <ion-icon style="margin-top:31px" tapabble color="danger" (tap)="deleleteCard(card.id)" style="font-size:30px; margin-top:13px" name="heart"></ion-icon>
                           <!-- </button> -->
                         </ion-col>
                         <ion-col col-6 >
-                          <ion-fab left >
-                            <button  color="transparent" ion-fab mini>
-                              <ion-icon name="md-share"></ion-icon>
-                            </button>
-                            <ion-fab-list side="top">
-                              <button color="twitter" (tap)="socialSharingTwitter(card.url_articulo, card.title, card.description, card.url_img)" ion-fab>
-                                <ion-icon name="logo-twitter"></ion-icon>
-                              </button>
-                              <button color="facebook" (tap)="socialSharingFacebook(card.url_articulo, card.title, card.description, card.url_img)" ion-fab>
-                                <ion-icon name="logo-facebook"></ion-icon>
-                              </button>
-                            </ion-fab-list>
-                            <ion-fab-list side="left">
-                              <button color="whatsapp" (tap)="socialSharingWhatsApp(card.url_articulo, card.title, card.description, card.url_img)" ion-fab>
-                                <ion-icon  class="iconfont icon-whatsapp"></ion-icon>
-                              </button>
-                            </ion-fab-list>
-                          </ion-fab>
+                          <button style="margin-top: 13px; margin-left: 7px;" (tap)="share(card.title, card.url_img, card.url_articulo)" ion-button small icon-end clear>
+                            <ion-icon style="font-size: 29px;" color="whatsapp" ios="ios-share" md="md-share"></ion-icon>
+                            <div></div>
+                          </button>
                         </ion-col>
               
                       </ion-row>

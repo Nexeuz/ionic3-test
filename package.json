@@ -1,8 +1,8 @@
 {
-    "name": "BrandingMarketingApp",
-    "version": "0.0.1",
-    "author": "Ionic Framework",
-    "homepage": "http://ionicframework.com/",
+    "name": "Nexeuz App",
+    "version": "1.0.4",
+    "author": "Nicolas Falla Rios",
+    "homepage": "https://nexeuznico.firebaseapp.com/#/login",
     "private": true,
     "scripts": {
         "clean": "ionic-app-scripts clean",

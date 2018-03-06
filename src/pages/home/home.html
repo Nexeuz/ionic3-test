@@ -63,7 +63,7 @@
             </button>
           </ion-col>
           <ion-col col-4 text-right>
-            <button ion-button large icon-start clear>
+            <button (tap)="share(card.title, card.url_img, card.url_articulo)" ion-button large icon-start clear>
               <ion-icon style="margin-top: 5px; font-size: 29px;" color="whatsapp" ios="ios-share" md="md-share"></ion-icon>
               <div></div>
             </button>

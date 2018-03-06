@@ -3,7 +3,7 @@
     <name>Nexeuz app</name>
     <description>Una simple aplicación para leer y comentar noticias</description>
     <author email="fgonzalez@marketing-branding.pe" href="https://www.marketing-branding.pe/">Branding Marketing Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.43.3:8100" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
     <allow-intent href="http://*/*" />
