@@ -65,9 +65,6 @@ export class HomePage {
   }
 
 
-
-
-
   ionViewDidLoad() {
 
     if (this.categoria === 'default') {
@@ -116,13 +113,11 @@ export class HomePage {
   //   MODAL.present();
   // }
 
-  loadingSharingMethod() {
-    this.loadingSharing = this.loading.create({
-      content: 'Preparando para compartir...'
-    })
-
-    this.loadingSharing.present();
+  goComments(title: string, id: string) {
+    this.navCtrl.push('CommentsPage', {title, id})
+    .catch(err => console.log(err));
   }
+  
 
 
   share(title: string, url_img: string, url: string) {
@@ -142,6 +137,16 @@ export class HomePage {
       })
 
   }
+
+  loadingSharingMethod() {
+    this.loadingSharing = this.loading.create({
+      content: 'Preparando para compartir...'
+    })
+
+    this.loadingSharing.present();
+  }
+
+  
 
 
 }

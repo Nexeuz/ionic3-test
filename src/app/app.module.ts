@@ -26,6 +26,7 @@ import { FavProvider } from '../providers/fav/fav';
 
 
 
+
 export const firebaseConfig = {
   apiKey: "AIzaSyBEgZQggMH7H2VzWZBJci6ikMm9Iv2GscE",
   authDomain: "nexeuznico.firebaseapp.com",
@@ -38,6 +39,7 @@ export const firebaseConfig = {
 @NgModule({
   declarations: [
     MyApp,
+    
   ],
   imports: [
     BrowserAnimationsModule,

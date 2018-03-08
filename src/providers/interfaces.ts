@@ -9,6 +9,8 @@ export interface Like {
     email: string;
     uid: string;
     name: string;
+    avatar: string;
+    createdAt: any;
   }
   
   export interface Card {

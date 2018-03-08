@@ -90,6 +90,8 @@ export class FirebaseProvider {
 
   }
 
+
+
   //// Social Auth ////
   errorAlertFb(titulo: string, subtitulo: string) {
     const alert = this.alertCtrl.create({
@@ -230,13 +232,15 @@ export class FirebaseProvider {
 
       userRef.get().then(doc => {
         if (doc.exists) {
-
+            // noting happens
         } else {
           const user: User = {
             uid: this.currentUserId,
             name: this.currentUserDisplayName,
             admin: false,
-            email: this.currentEmail
+            email: this.currentEmail,
+            avatar: this.authState.photoURL,
+            createdAt: this.authState.metadata.creationTime
           }
           userRef.set(user);
         }
@@ -250,7 +254,9 @@ export class FirebaseProvider {
           uid:  this.currentUserId,
           name:  nombre,
           admin: false,
-          email: this.currentEmail
+          email: this.currentEmail,
+          avatar: 'https://avatars1.githubusercontent.com/u/17104494?s=400&u=ac953d7920675fc8d4c59a5ac20c1b8ad1621747&v=4',
+          createdAt: this.authState.metadata.creationTime
         }
         userRef.set(user);
       })

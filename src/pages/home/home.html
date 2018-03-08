@@ -57,13 +57,13 @@
 
           </ion-col>
           <ion-col col-4 text-center>
-            <button color="dark" ion-button icon-start large clear>
-              <ion-icon style="font-size: 33px; margin-top: 6px; padding-right: 8px;" color="dark" ios="ios-text" md="ios-text"></ion-icon>
-              <div style="margin-top: 4px;"> 4</div>
+            <button style="margin-top:10px" (tap)="goComments(card.title, card.id)" color="dark" ion-button icon-start large clear>
+              <ion-icon style="font-size: 33px; margin-top: 6px; padding-right: 8px;" color="dark" [ios]="card.comments == 0 ? 'ios-text-outline' : 'ios-text'" [name]="card.comments == 0 ? 'ios-text-outline' : 'ios-text'"></ion-icon>
+              <div style="margin-top: 4px;"> {{ card.comments }}</div>
             </button>
           </ion-col>
           <ion-col col-4 text-right>
-            <button (tap)="share(card.title, card.url_img, card.url_articulo)" ion-button large icon-start clear>
+            <button style="margin-top:10px" (tap)="share(card.title, card.url_img, card.url_articulo)" ion-button large icon-start clear>
               <ion-icon style="margin-top: 5px; font-size: 29px;" color="whatsapp" ios="ios-share" md="md-share"></ion-icon>
               <div></div>
             </button>

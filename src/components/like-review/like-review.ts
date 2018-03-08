@@ -26,7 +26,10 @@ export class LikeReviewComponent implements OnInit, AfterViewChecked, OnChanges 
 
 
 
-  constructor(private fireS: FirebaseProvider, private fav: FavProvider, private af: AngularFirestore, private cfRef: ChangeDetectorRef) {
+  constructor(private fireS: FirebaseProvider, 
+    private fav: FavProvider, 
+    private af: AngularFirestore, 
+    private cfRef: ChangeDetectorRef) {
     console.log('Hello LikeReviewComponent Component');
   }
 
